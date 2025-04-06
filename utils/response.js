@@ -28,7 +28,7 @@ function failure(res, error) {
       errors: [error.message],
     });
   }
-  res.status(500).json({
+  return res.status(500).json({
     status: false,
     message: "服务器错误",
     errors: [error.message],
@@ -38,4 +38,5 @@ function failure(res, error) {
 module.exports = {
   NotFoundError,
   success,
+  failure
 };
