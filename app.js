@@ -11,6 +11,8 @@ var adminCategoriesRouter = require('./routes/admin/categories.js');
 var adminSettingRouter = require('./routes/admin/setting.js');
 var adminUserRouter = require('./routes/admin/users.js');
 var adminCourseRouter = require('./routes/admin/courses.js');
+var adminChapterRouter = require('./routes/admin/chapters.js');
+var adminChartRouter = require('./routes/admin/chart.js');
 
 var app = express();
 
@@ -28,5 +30,7 @@ app.use('/admin/categories', adminCategoriesRouter);
 app.use('/admin/setting', adminSettingRouter);
 app.use('/admin/users', adminUserRouter);
 app.use('/admin/courses', adminCourseRouter);
+app.use('/admin/chapters', adminChapterRouter);
+app.use('/admin/chart', adminChartRouter);
 
 module.exports = app;
