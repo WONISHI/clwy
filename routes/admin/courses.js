@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { Course,User, Category,Chapter } = require("../../models");
+const { Course, User, Category, Chapter } = require("../../models");
 const { Op } = require("sequelize");
-const { NotFoundError, success, failure } = require("../../utils/response");
+const { success, failure } = require("../../utils/responses");
+const { NotFoundError } = require("../../utils/error");
 
 // 查询课程列表
 router.get("/list", async function (req, res) {
@@ -13,10 +14,10 @@ router.get("/list", async function (req, res) {
     const offset = (currentPage - 1) * pageSize;
     const condition = {
       ...getCondition(),
-      order: [['id', 'DESC']],
+      order: [["id", "DESC"]],
       limit: pageSize,
-      offset: offset
-    };    
+      offset: offset,
+    };
     const { count, rows } = await Course.findAndCountAll(condition);
     success(res, "查询课程列表成功", {
       coursess: rows,
@@ -41,7 +42,9 @@ router.get("/list/:id", async function (req, res) {
 // 创建课程
 router.post("/", async function (req, res) {
   try {
-    const course = await Course.create(filterBody(req));
+    const body = filterBody(req);
+    body.userId = req.user.id;
+    const course = await Course.create(body);
     success(res, "查询课程成功", course, 201);
   } catch (error) {
     failure(res, error);
@@ -88,41 +91,41 @@ router.get("/search", async function (req, res) {
     if (query.categoryId) {
       condition.where = {
         categoryId: {
-          [Op.eq]: query.categoryId
-        }
+          [Op.eq]: query.categoryId,
+        },
       };
     }
-    
+
     if (query.userId) {
       condition.where = {
         userId: {
-          [Op.eq]: query.userId
-        }
+          [Op.eq]: query.userId,
+        },
       };
     }
-    
+
     if (query.name) {
       condition.where = {
         name: {
-          [Op.like]: `%${ query.name }%`
-        }
+          [Op.like]: `%${query.name}%`,
+        },
       };
     }
-    
+
     if (query.recommended) {
       condition.where = {
         recommended: {
           // 需要转布尔值
-          [Op.eq]: query.recommended === 'true'
-        }
+          [Op.eq]: query.recommended === "true",
+        },
       };
     }
-    
+
     if (query.introductory) {
       condition.where = {
         introductory: {
-          [Op.eq]: query.introductory === 'true'
-        }
+          [Op.eq]: query.introductory === "true",
+        },
       };
     }
     const courses = await Course.findAll(condition);
@@ -140,12 +143,11 @@ router.get("/search", async function (req, res) {
 function filterBody(req) {
   return {
     categoryId: req.body.categoryId,
-    userId: req.body.userId,
     name: req.body.name,
     image: req.body.image,
     recommended: req.body.recommended,
     introductory: req.body.introductory,
-    content: req.body.content
+    content: req.body.content,
   };
 }
 
@@ -155,20 +157,20 @@ function filterBody(req) {
  */
 function getCondition() {
   return {
-    attributes: { exclude: ['CategoryId', 'UserId'] },
+    attributes: { exclude: ["CategoryId", "UserId"] },
     include: [
       {
         model: Category,
-        as: 'category',
-        attributes: ['id', 'name']
+        as: "category",
+        attributes: ["id", "name"],
       },
       {
         model: User,
-        as: 'user',
-        attributes: ['id', 'username', 'avatar']
-      }
-    ]
-  }
+        as: "user",
+        attributes: ["id", "username", "avatar"],
+      },
+    ],
+  };
 }
 
 // 然后修改查询单条数据这里
@@ -182,7 +184,7 @@ async function getCourse(req) {
 
   const course = await Course.findByPk(id, condition);
   if (!course) {
-    throw new NotFoundError(`ID: ${ id }的课程未找到。`)
+    throw new NotFoundError(`ID: ${id}的课程未找到。`);
   }
 
   return course;

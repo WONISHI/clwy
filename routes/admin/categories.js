@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Category, Course } = require("../../models");
 const { Op } = require("sequelize");
-const { NotFoundError, success, failure } = require("../../utils/response");
+const { NotFoundError, success, failure } = require("../../utils/responses");
 
 // 查询分类列表
 router.get("/list", async function (req, res) {
@@ -12,10 +12,10 @@ router.get("/list", async function (req, res) {
     const pageSize = query.pageSize || 10;
     const offset = (currentPage - 1) * pageSize;
     const condition = {
-        order: [
-            ["rank", "ASC"],
-            ["id", "DESC"],
-          ],
+      order: [
+        ["rank", "ASC"],
+        ["id", "DESC"],
+      ],
       limit: pageSize,
       offset,
     };

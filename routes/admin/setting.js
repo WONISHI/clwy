@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { Setting } = require("../../models");
-const { NotFoundError, success, failure } = require("../../utils/response");
+const { success, failure } = require("../../utils/responses");
+const { NotFoundError } = require("../../utils/error");
 
 
 // 查询系统设置详情

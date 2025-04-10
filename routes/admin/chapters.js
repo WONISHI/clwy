@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { Chapter } = require("../../models");
+const { Chapter, Course } = require("../../models");
 const { Op } = require("sequelize");
-const { NotFoundError, success, failure } = require("../../utils/response");
+const { success, failure } = require("../../utils/responses");
+const { NotFoundError } = require("../../utils/error");
 
 // 查询章节列表
 router.get("/list", async function (req, res) {
@@ -11,8 +12,15 @@ router.get("/list", async function (req, res) {
     const currentPage = query.currentPage || 1;
     const pageSize = query.pageSize || 10;
     const offset = (currentPage - 1) * pageSize;
+    if (!query.courseId) {
+      throw new Error("获取章节列表失败，课程ID不能为空");
+    }
     const condition = {
-      order: [["id", "DESC"]],
+      ...getCondition(),
+      order: [
+        ["rank", "ASC"],
+        ["id", "DESC"],
+      ],
       limit: pageSize,
       offset,
     };
@@ -99,17 +107,17 @@ router.get("/search", async function (req, res) {
  * @returns {{include: [{as: string, model, attributes: string[]}], attributes: {exclude: string[]}}}
  */
 function getCondition() {
-    return {
-      attributes: { exclude: ['CourseId'] },
-      include: [
-        {
-          model: Course,
-          as: 'course',
-          attributes: ['id', 'name']
-        }
-      ]
-    }
-  }
+  return {
+    attributes: { exclude: ["CourseId"] },
+    include: [
+      {
+        model: Course,
+        as: "course",
+        attributes: ["id", "name"],
+      },
+    ],
+  };
+}
 
 /**
  * 公共方法：白名单过滤
@@ -128,7 +136,8 @@ function filterBody(req) {
 
 async function getChapter(req) {
   const { id } = req.params;
-  const chapter = await Chapter.findByPk(id);
+  const condition = getCondition();
+  const chapter = await Chapter.findByPk(id, condition);
   if (!chapter) {
     throw new NotFoundError(`ID:${id}的章节未找到`);
   }

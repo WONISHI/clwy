@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { User } = require("../../models");
 const { Op } = require("sequelize");
-const { NotFoundError, success, failure } = require("../../utils/response");
+const { success, failure } = require("../../utils/responses");
+const { NotFoundError } = require("../../utils/error");
 
 // 查询用户列表
 router.get("/list", async function (req, res) {
@@ -40,7 +41,8 @@ router.get("/list/:id", async function (req, res) {
 // 创建用户
 router.post("/", async function (req, res) {
   try {
-    const user = await User.create(filterBody(req));
+    const body = filterBody(req);
+    const user = await User.create(body);
     success(res, "查询用户成功", user, 201);
   } catch (error) {
     failure(res, error);
@@ -70,32 +72,32 @@ router.get("/search", async function (req, res) {
     if (query.email) {
       condition.where = {
         email: {
-          [Op.eq]: query.email
-        }
+          [Op.eq]: query.email,
+        },
       };
     }
-    
+
     if (query.username) {
       condition.where = {
         username: {
-          [Op.eq]: query.username
-        }
+          [Op.eq]: query.username,
+        },
       };
     }
-    
+
     if (query.nickname) {
       condition.where = {
         nickname: {
-          [Op.like]: `%${ query.nickname }%`
-        }
+          [Op.like]: `%${query.nickname}%`,
+        },
       };
     }
-    
+
     if (query.role) {
       condition.where = {
         role: {
-          [Op.eq]: query.role
-        }
+          [Op.eq]: query.role,
+        },
       };
     }
     const users = await User.findAll(condition);
@@ -120,7 +122,7 @@ function filterBody(req) {
     company: req.body.company,
     introduce: req.body.introduce,
     role: req.body.role,
-    avatar: req.body.avatar
+    avatar: req.body.avatar,
   };
 }
 async function getUser(req) {
