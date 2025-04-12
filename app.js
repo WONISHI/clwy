@@ -3,6 +3,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const adminAuth = require("./middlewares/adminAuth");
+const userAuth = require('./middlewares/user-auth');
 require("dotenv").config();
 // 前台路由
 var indexRouter = require("./routes/index");
@@ -33,7 +34,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 // 前台路由配置
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
 app.use('/categories', categoriesRouter);
 app.use('/courses', coursesRouter);
 app.use('/chapters', chaptersRouter);
@@ -41,6 +41,7 @@ app.use('/articles', articlesRouter);
 app.use('/settings', settingsRouter);
 app.use('/search', searchRouter);
 app.use('/auth', authRouter);
+app.use('/users', userAuth, usersRouter);
 // 后台路由配置
 app.use("/admin/articles", adminAuth, adminArticlesRouter);
 app.use("/admin/categories", adminAuth, adminCategoriesRouter);
