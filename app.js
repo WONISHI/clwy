@@ -3,18 +3,21 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const adminAuth = require("./middlewares/adminAuth");
-const userAuth = require('./middlewares/user-auth');
+const userAuth = require("./middlewares/user-auth");
+const cors = require('cors')
+
 require("dotenv").config();
 // 前台路由
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-const categoriesRouter = require('./routes/categories');
-const coursesRouter = require('./routes/courses');
-const chaptersRouter = require('./routes/chapters');
-const articlesRouter = require('./routes/articles');
-const settingsRouter = require('./routes/settings');
-const searchRouter = require('./routes/search');
-const authRouter = require('./routes/auth'); 
+const categoriesRouter = require("./routes/categories");
+const coursesRouter = require("./routes/courses");
+const chaptersRouter = require("./routes/chapters");
+const articlesRouter = require("./routes/articles");
+const settingsRouter = require("./routes/settings");
+const searchRouter = require("./routes/search");
+const authRouter = require("./routes/auth");
+const likesRouter = require("./routes/likes");
 // 后台路由
 var adminArticlesRouter = require("./routes/admin/articles.js");
 var adminCategoriesRouter = require("./routes/admin/categories.js");
@@ -32,16 +35,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cors())
 // 前台路由配置
 app.use("/", indexRouter);
-app.use('/categories', categoriesRouter);
-app.use('/courses', coursesRouter);
-app.use('/chapters', chaptersRouter);
-app.use('/articles', articlesRouter);
-app.use('/settings', settingsRouter);
-app.use('/search', searchRouter);
-app.use('/auth', authRouter);
-app.use('/users', userAuth, usersRouter);
+app.use("/categories", categoriesRouter);
+app.use("/courses", coursesRouter);
+app.use("/chapters", chaptersRouter);
+app.use("/articles", articlesRouter);
+app.use("/settings", settingsRouter);
+app.use("/search", searchRouter);
+app.use("/auth", authRouter);
+app.use("/users", userAuth, usersRouter);
+app.use("/likes", userAuth, likesRouter);
 // 后台路由配置
 app.use("/admin/articles", adminAuth, adminArticlesRouter);
 app.use("/admin/categories", adminAuth, adminCategoriesRouter);
