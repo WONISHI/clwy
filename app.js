@@ -2,7 +2,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const adminAuth = require("./middlewares/adminAuth");
+const adminAuth = require("./middlewares/admin-auth");
 const userAuth = require("./middlewares/user-auth");
 const cors = require('cors')
 
