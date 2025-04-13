@@ -26,7 +26,7 @@ var adminUserRouter = require("./routes/admin/users.js");
 var adminCourseRouter = require("./routes/admin/courses.js");
 var adminChapterRouter = require("./routes/admin/chapters.js");
 var adminChartRouter = require("./routes/admin/chart.js");
-var adminLoginRouter = require("./routes/admin/login.js");
+var adminLoginRouter = require("./routes/admin/auth.js");
 
 var app = express();
 

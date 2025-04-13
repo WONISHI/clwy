@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { Category, Course } = require("../../models");
 const { Op } = require("sequelize");
-const { NotFoundError, success, failure } = require("../../utils/responses");
+const { success, failure } = require("../../utils/responses");
+const { NotFoundError } = require("../../utils/errors");
 
 // 查询分类列表
 router.get("/list", async function (req, res) {
