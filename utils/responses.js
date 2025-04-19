@@ -6,6 +6,7 @@ function success(res, message, data = {}, code = 200) {
 }
 
 function failure(res, error) {
+  console.log(error,res);
   if (error.name === "SequlizeValidationError") {
     const errors = error.errors.map((err) => err.message);
     return res.status(400).json({

@@ -48,7 +48,10 @@ router.get("/list/:id", async function (req, res) {
 // 创建章节
 router.post("/", async function (req, res) {
   try {
-    const chapter = await Chapter.create(filterBody(req));
+    const body=filterBody(req)
+    // 创建章节，并增加课程章节
+    const chapter = await Chapter.create(body);
+    await Chapter.increment('chaptersCount',{where:{id:chapter.courseId}});
     success(res, "查询章节成功", chapter, 201);
   } catch (error) {
     failure(res, error);
@@ -61,6 +64,7 @@ router.delete("/:id", async function (req, res) {
     const chapter = await getChapter(req);
     if (chapter) {
       await chapter.destroy();
+      await Chapter.decrement('chaptersCount',{where:{id:chapter.courseId}});
       success(res, "删除章节成功");
     }
   } catch (error) {
