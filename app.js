@@ -1,15 +1,15 @@
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 const adminAuth = require("./middlewares/admin-auth");
 const userAuth = require("./middlewares/user-auth");
 const cors = require('cors')
 
 require("dotenv").config();
 // 前台路由
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
 const categoriesRouter = require("./routes/categories");
 const coursesRouter = require("./routes/courses");
 const chaptersRouter = require("./routes/chapters");
@@ -19,16 +19,16 @@ const searchRouter = require("./routes/search");
 const authRouter = require("./routes/auth");
 const likesRouter = require("./routes/likes");
 // 后台路由
-var adminArticlesRouter = require("./routes/admin/articles.js");
-var adminCategoriesRouter = require("./routes/admin/categories.js");
-var adminSettingRouter = require("./routes/admin/setting.js");
-var adminUserRouter = require("./routes/admin/users.js");
-var adminCourseRouter = require("./routes/admin/courses.js");
-var adminChapterRouter = require("./routes/admin/chapters.js");
-var adminChartRouter = require("./routes/admin/chart.js");
-var adminLoginRouter = require("./routes/admin/auth.js");
+const adminArticlesRouter = require("./routes/admin/articles.js");
+const adminCategoriesRouter = require("./routes/admin/categories.js");
+const adminSettingRouter = require("./routes/admin/setting.js");
+const adminUserRouter = require("./routes/admin/users.js");
+const adminCourseRouter = require("./routes/admin/courses.js");
+const adminChapterRouter = require("./routes/admin/chapters.js");
+const adminChartRouter = require("./routes/admin/chart.js");
+const adminLoginRouter = require("./routes/admin/auth.js");
 
-var app = express();
+const app = express();
 
 app.use(logger("dev"));
 app.use(express.json());
