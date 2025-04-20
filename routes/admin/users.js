@@ -13,6 +13,7 @@ router.get("/list", async function (req, res) {
     const pageSize = query.pageSize || 10;
     const offset = (currentPage - 1) * pageSize;
     const condition = {
+      where:{},
       order: [["id", "DESC"]],
       limit: pageSize,
       offset,
@@ -22,6 +23,18 @@ router.get("/list", async function (req, res) {
       users: rows,
       pagination: { currentPage, pageSize, total: count },
     });
+  } catch (error) {
+    failure(res, error);
+  }
+});
+
+// 查询当前登陆的用户详情
+// 路由的顺序需要保证
+router.get("/me", async function (req, res) {
+  try {
+    // 获取用户 ID
+    const user = req.user;
+    success(res, "查询当前用户信息成功", user);
   } catch (error) {
     failure(res, error);
   }
@@ -49,6 +62,8 @@ router.post("/", async function (req, res) {
   }
 });
 
+
+
 // 更新用户
 router.put("/:id", async function (req, res) {
   try {
@@ -62,10 +77,10 @@ router.put("/:id", async function (req, res) {
   }
 });
 
-// 模糊搜索
+// 模糊搜索??????where会覆盖搜索字段
 router.get("/search", async function (req, res) {
   try {
-    const { title } = req.query;
+    let query = req.query;
     const condition = {
       order: [["id", "DESC"]],
     };
