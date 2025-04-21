@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { User } = require('../models');
 const { success, failure } = require('../utils/responses');
-const { BadRequestError, NotFoundError } = require("../utils/errors");
+const { BadRequest, NotFoundError } = require('http-errors');
 const bcrypt = require('bcryptjs');
 
 /**

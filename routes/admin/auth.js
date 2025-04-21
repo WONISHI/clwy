@@ -6,7 +6,7 @@ const {
   BadRequestError,
   UnauthorizedError,
   NotFoundError,
-} = require("../../utils/errors");
+} = require('http-errors');
 const { success, failure } = require("../../utils/responses");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");

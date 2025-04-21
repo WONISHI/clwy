@@ -3,7 +3,7 @@ const router = express.Router();
 const { sequelize, User } = require("../../models");
 const { Op } = require("sequelize");
 const { success, failure } = require("../../utils/responses");
-const { NotFoundError } = require("../../utils/errors");
+const { NotFoundError } = require('http-errors');
 
 /**
  * 统计用户性别

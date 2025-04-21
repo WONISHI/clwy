@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Setting } = require("../../models");
 const { success, failure } = require("../../utils/responses");
-const { NotFoundError } = require("../../utils/errors");
+const { NotFoundError } = require('http-errors');
 
 
 // 查询系统设置详情

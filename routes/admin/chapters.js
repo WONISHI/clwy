@@ -3,7 +3,8 @@ const router = express.Router();
 const { Chapter, Course } = require("../../models");
 const { Op } = require("sequelize");
 const { success, failure } = require("../../utils/responses");
-const { NotFoundError } = require("../../utils/errors");
+const { NotFoundError } = require('http-errors');
+const { NotFound, BadRequest } = require('http-errors');
 
 // 查询章节列表
 router.get("/list", async function (req, res) {
@@ -13,7 +14,7 @@ router.get("/list", async function (req, res) {
     const pageSize = query.pageSize || 10;
     const offset = (currentPage - 1) * pageSize;
     if (!query.courseId) {
-      throw new Error("获取章节列表失败，课程ID不能为空");
+      throw new BadRequest('获取章节列表失败，课程ID不能为空。');
     }
     const condition = {
       ...getCondition(),

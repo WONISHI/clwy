@@ -21,7 +21,7 @@ class BadRequestError extends Error {
   /**
    * 自定义 404 错误类
    */
-  class NotFoundError extends Error {
+  class NotFound extends Error {
     constructor(message) {
       super(message);
       this.name = 'NotFoundError';

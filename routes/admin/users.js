@@ -3,7 +3,7 @@ const router = express.Router();
 const { User } = require("../../models");
 const { Op } = require("sequelize");
 const { success, failure } = require("../../utils/responses");
-const { NotFoundError } = require("../../utils/errors");
+const { NotFoundError } = require('http-errors');
 
 // 查询用户列表
 router.get("/list", async function (req, res) {

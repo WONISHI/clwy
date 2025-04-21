@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Course, Like, User } = require("../models");
 const { success, failure } = require("../utils/responses");
-const { NotFoundError } = require("../utils/errors");
+const { NotFoundError } = require('http-errors');
 
 /**
  * 点赞、取消赞
