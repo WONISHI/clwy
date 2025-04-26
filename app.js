@@ -27,12 +27,14 @@ const adminCourseRouter = require("./routes/admin/courses.js");
 const adminChapterRouter = require("./routes/admin/chapters.js");
 const adminChartRouter = require("./routes/admin/chart.js");
 const adminLoginRouter = require("./routes/admin/auth.js");
+// 文件上传
+const uploadsRouter = require('./routes/uploads.js');
 
 const app = express();
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors())
@@ -47,6 +49,8 @@ app.use("/search", searchRouter);
 app.use("/auth", authRouter);
 app.use("/users", userAuth, usersRouter);
 app.use("/likes", userAuth, likesRouter);
+// 文件上传配置
+app.use("/uploads", userAuth, uploadsRouter);
 // 后台路由配置
 app.use("/admin/articles", adminAuth, adminArticlesRouter);
 app.use("/admin/categories", adminAuth, adminCategoriesRouter);
@@ -56,5 +60,6 @@ app.use("/admin/courses", adminAuth, adminCourseRouter);
 app.use("/admin/chapters", adminAuth, adminChapterRouter);
 app.use("/admin/chart", adminAuth, adminChartRouter);
 app.use("/admin/login", adminLoginRouter);
+
 
 module.exports = app;
