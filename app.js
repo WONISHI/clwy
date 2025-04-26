@@ -27,8 +27,10 @@ const adminCourseRouter = require("./routes/admin/courses.js");
 const adminChapterRouter = require("./routes/admin/chapters.js");
 const adminChartRouter = require("./routes/admin/chart.js");
 const adminLoginRouter = require("./routes/admin/auth.js");
+const adminAttachmentsRouter = require('./routes/admin/attachments');
 // 文件上传
 const uploadsRouter = require('./routes/uploads.js');
+
 
 const app = express();
 
@@ -60,6 +62,6 @@ app.use("/admin/courses", adminAuth, adminCourseRouter);
 app.use("/admin/chapters", adminAuth, adminChapterRouter);
 app.use("/admin/chart", adminAuth, adminChartRouter);
 app.use("/admin/login", adminLoginRouter);
-
+app.use('/admin/attachments', adminAuth, adminAttachmentsRouter);
 
 module.exports = app;
