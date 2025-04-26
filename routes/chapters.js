@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Course, Category, Chapter, User } = require("../models");
 const { success, failure } = require("../utils/responses");
-const { NotFoundError } = require('http-errors');
+const { NotFound } = require('http-errors');
 
 /**
  * 查询章节详情
@@ -33,7 +33,7 @@ router.get("/:id", async function (req, res) {
       attributes: { exclude: ["CourseId"] },
     });
     if (!chapter) {
-      throw new NotFoundError(`ID: ${id}的章节未找到。`);
+      throw new NotFound(`ID: ${id}的章节未找到。`);
     }
       // 查询章节关联的课程
       const course = await chapter.getCourse({
