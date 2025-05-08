@@ -29,17 +29,23 @@ const adminChartRouter = require("./routes/admin/chart.js");
 const adminLoginRouter = require("./routes/admin/auth.js");
 const adminAttachmentsRouter = require('./routes/admin/attachments');
 // 文件上传
-const uploadsRouter = require('./routes/uploads.js');
+// const uploadsRouter = require('./routes/uploads.js');
 
 
 const app = express();
 
 app.use(logger("dev"));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors())
+// 打印请求体
+app.use((req, res, next) => {
+    console.log("Request body:", req.body);
+    next();
+});
 // 前台路由配置
 app.use("/", indexRouter);
 app.use("/categories", categoriesRouter);
@@ -52,7 +58,7 @@ app.use("/auth", authRouter);
 app.use("/users", userAuth, usersRouter);
 app.use("/likes", userAuth, likesRouter);
 // 文件上传配置
-app.use("/uploads", userAuth, uploadsRouter);
+// app.use("/uploads", userAuth, uploadsRouter);
 // 后台路由配置
 app.use("/admin/articles", adminAuth, adminArticlesRouter);
 app.use("/admin/categories", adminAuth, adminCategoriesRouter);

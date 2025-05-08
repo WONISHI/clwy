@@ -18,6 +18,7 @@ const jwt = require("jsonwebtoken");
 router.post("/sign_in", async (req, res) => {
   try {
     const { login, password } = req.body;
+    console.log(req.body,122);
 
     if (!login) {
       throw new BadRequestError("邮箱/用户名必须填写。");

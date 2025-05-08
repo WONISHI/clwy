@@ -1,13 +1,12 @@
 const createError = require('http-errors');
-
+const multer = require('multer');
 function success(res, message, data = {}, code = 200) {
     res.status(code).json({
+        code:200,
         message,
         data,
     });
 }
-
-const createError = require('http-errors');
 
 /**
  * 请求失败
@@ -16,6 +15,7 @@ const createError = require('http-errors');
  */
 function failure(res, error) {
     // 默认响应为 500，服务器错误
+    console.log(error);
     let statusCode = 500;
     let errors = '服务器错误';
 

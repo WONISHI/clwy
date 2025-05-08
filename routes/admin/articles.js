@@ -7,11 +7,13 @@ const { NotFoundError } = require('http-errors');
 
 // 查询文章列表
 router.get("/list", async function (req, res) {
+  console.log(req.query,9999);
   try {
     const query = req.query;
     const currentPage = query.currentPage || 1;
     const pageSize = query.pageSize || 10;
     const offset = (currentPage - 1) * pageSize;
+    console.log('offset', offset);
     const condition = {
       order: [["id", "DESC"]],
       limit: pageSize,
@@ -23,6 +25,7 @@ router.get("/list", async function (req, res) {
       pagination: { currentPage, pageSize, total: count },
     });
   } catch (error) {
+    console.log(error);
     failure(res, error);
   }
 });
@@ -31,9 +34,11 @@ router.get("/list", async function (req, res) {
 router.get("/list/:id", async function (req, res) {
   try {
     // 获取文章 ID
+    console.log("req.params.id", req.params.id);
     const article = await getArticle(req);
     success(res, "查询文章成功", article);
   } catch (error) {
+    console.log(error);
     failure(res, error);
   }
 });
